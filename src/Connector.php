@@ -15,7 +15,7 @@ use Awesome\Connector\Contracts\Connector as ConnectorContract;
 
 class Connector implements ConnectorContract
 {
-    private string $baseUrl;
+    private ?string $baseUrl;
     private Client $httpClient;
 
     public function __construct()

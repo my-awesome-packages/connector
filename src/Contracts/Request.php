@@ -24,9 +24,9 @@ interface Request
 
     public function option(string $key, $value = null);
 
-    public function success(Closure $callback = null): Closure|Request;
+    public function success(Closure $callback = null): null|Closure|Request;
 
-    public function error(Closure $callback = null): Closure|Request;
+    public function error(Closure $callback = null): null|Closure|Request;
 
     public function makeHttpRequest(): RequestInterface;
 

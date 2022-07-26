@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Response;
 use Psr\Http\Message\RequestInterface;
 use Awesome\Connector\Contracts\Method;
+use Awesome\Connector\Facades\Connector;
 use Awesome\Connector\Traits\DataConverter;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 use Awesome\Connector\Contracts\Request as RequestContract;
@@ -18,13 +19,13 @@ class Request implements RequestContract
     protected string $url = '';
 
     protected array $headers = [];
-    protected string $body;
+    protected string $body = '';
     protected array $options = [
         'timeout' => 2
     ];
 
-    protected Closure $successCallback;
-    protected Closure $errorCallback;
+    protected ?Closure $successCallback = null;
+    protected ?Closure $errorCallback = null;
 
     public function method(string $method = null): string|RequestContract
     {
@@ -77,12 +78,12 @@ class Request implements RequestContract
         return $this;
     }
 
-    public function success(Closure $callback = null): Closure|RequestContract
+    public function success(Closure $callback = null): null|Closure|RequestContract
     {
         return $this->set('successCallback', $callback);
     }
 
-    public function error(Closure $callback = null): Closure|RequestContract
+    public function error(Closure $callback = null): null|Closure|RequestContract
     {
         return $this->set('errorCallback', $callback);
     }
@@ -97,7 +98,7 @@ class Request implements RequestContract
         return Connector::send($this);
     }
 
-    protected function set(string $key, string|array|Closure $value = null): string|array|Closure|RequestContract
+    protected function set(string $key, string|array|Closure $value = null): null|string|array|Closure|RequestContract
     {
         if (is_null($value)) {
             return $this->$key;
