@@ -5,7 +5,8 @@
   "license": "proprietary",
   "require": {
     "php": "^8.1",
-    "guzzlehttp/guzzle": "^7.2"
+    "guzzlehttp/guzzle": "^7.2",
+    "my-awesome-packages/rest": "^1.0"
   },
   "autoload": {
     "psr-4": {

@@ -12,7 +12,7 @@ class ConnectorServiceProvider extends ServiceProvider implements DeferrableProv
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/config/connect.php' => base_path('config/connect.php')
+                __DIR__ . '/../config/connect.php' => base_path('config/connect.php')
             ], 'config');
         }
     }
