@@ -3,6 +3,7 @@
 namespace Awesome\Connector\Contracts;
 
 use Closure;
+use GuzzleHttp\Psr7\MultipartStream;
 use Illuminate\Http\Response;
 use Psr\Http\Message\RequestInterface;
 
