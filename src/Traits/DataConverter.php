@@ -21,7 +21,7 @@ trait DataConverter
         $res = [];
 
         foreach ($data as $k => $v) {
-            $name = empty($contentName) ? "{$k}" : "{$contentName}{$k}";
+            $name = empty($contentName) ? "{$k}" : "{$contentName}[{$k}]";
 
             if (is_array($v)) {
                 $res = array_merge($res, $this->transformToMultipartData($v, $name));

@@ -14,9 +14,9 @@ interface Request
 
     public function query(array $query = null): array|Request;
 
-    public function formData(array $data = null): array|Request;
+    public function formData(array $data): Request;
 
-    public function body(string|array $body = null): string|array|Request;
+    public function body(string|array $body = null): string|array|MultipartStream|Request;
 
     public function headers(array $headers = null): array|Request;
 

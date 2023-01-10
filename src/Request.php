@@ -3,6 +3,7 @@
 namespace Awesome\Connector;
 
 use Closure;
+use GuzzleHttp\Psr7\MultipartStream;
 use Illuminate\Http\Response;
 use Psr\Http\Message\RequestInterface;
 use Awesome\Connector\Contracts\Method;
@@ -19,7 +20,7 @@ class Request implements RequestContract
     protected string $url = '';
 
     protected array $headers = [];
-    protected string $body = '';
+    protected string|array|MultipartStream $body = '';
     protected array $options = [
         'timeout' => 2
     ];
@@ -42,7 +43,7 @@ class Request implements RequestContract
         return $this->option('query', $query);
     }
 
-    public function body(array|string $body = null): array|string|RequestContract
+    public function body(array|string $body = null): array|string|MultipartStream|RequestContract
     {
         if (is_array($body)) {
             $this->headers(['Content-Type' => 'application/json']);
@@ -52,9 +53,11 @@ class Request implements RequestContract
         return $this->set('body', $body);
     }
 
-    public function formData(array $data = null): array|RequestContract
+    public function formData(array $data): RequestContract
     {
-        return $this->set('body', is_null($data) ? $data : $this->toMultipartStream($data));
+        $body = $this->toMultipartStream($data);
+
+        return $this->set('body', $body);
     }
 
     public function headers(array $headers = null): array|RequestContract
@@ -98,7 +101,7 @@ class Request implements RequestContract
         return Connector::send($this);
     }
 
-    protected function set(string $key, string|array|Closure $value = null): null|string|array|Closure|RequestContract
+    protected function set(string $key, string|array|Closure|MultipartStream $value = null): null|string|array|Closure|MultipartStream|RequestContract
     {
         if (is_null($value)) {
             return $this->$key;

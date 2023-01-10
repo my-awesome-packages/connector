@@ -5,9 +5,9 @@ namespace Awesome\Connector;
 use Awesome\Connector\Contracts\{Connector as ConnectorContract, Middleware, Request, Status};
 use Closure;
 use Exception;
-use GuzzleHttp\{Client, HandlerStack, Promise};
+use GuzzleHttp\{Client, HandlerStack};
 use GuzzleHttp\Handler\CurlMultiHandler;
-use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\{Utils, PromiseInterface};
 use Illuminate\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 
@@ -36,7 +36,7 @@ class Connector implements ConnectorContract
             return $this->prepareRequest($request);
         }, $requests);
 
-        return Promise\Utils::all($requests);
+        return Utils::all($requests);
     }
 
     public function convertResponse(ResponseInterface $psrResponse = null): Response
@@ -120,7 +120,7 @@ class Connector implements ConnectorContract
     private function initHttpClient(): ConnectorContract
     {
         $this->httpClient = new Client(['base_uri' => $this->baseUrl, 'handler' => $this->getHandlerStack()]);
-        
+
         return $this;
     }
 
